@@ -1,0 +1,552 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Ini adalah dokumentasi API Player App yang dibuat oleh Hany Luqianie",
+    "version": "1.0.0",
+    "title": "Dokumentasi API Binar Challenge Chapter 8",
+	"contact": {
+      "email": "luqianiehany@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:5000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "players",
+      "description": "Everything about Players"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/players": {
+      "post": {
+        "tags": [
+          "players"
+        ],
+        "summary": "Create new player",
+        "description": "Add a new player into database",
+        "operationId": "createPlayer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Parameter to be added to the table player",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createPlayerRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/Player"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+		  "400": {
+            "description": "username or email or password field cannot be empty."
+          },
+          "500": {
+            "description": "Some error occurred while creating the Player."
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "players"
+        ],
+        "summary": "Find all players (with query parameters)",
+        "description": "This is the endpoint to get all players (with query parameters)",
+        "operationId": "findAllPlayers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "Filter players by username",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Filter players by email",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "experience",
+            "in": "query",
+            "description": "Filter players by experience",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "lvl",
+            "in": "query",
+            "description": "Filter players by lvl",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+		"responses": {
+          "200": {
+            "description": "SUCCESS",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/Player"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+		  "500": {
+			"description": "Some error occurred while retrieving players."
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/players/{id}": {
+      "get": {
+        "tags": [
+          "players"
+        ],
+        "summary": "Find a single player with an id",
+        "description": "This is the endpoint to find a single player with an id",
+        "operationId": "findPlayerId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Filter player by id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/Player"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+		  "500": {
+			"description": "Error retrieving Player with id=${id}"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "players"
+        ],
+        "summary": "Update a player by the id in the request",
+        "description": "This is the endpoint to edit a player by the id in the request",
+        "operationId": "updatePlayer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Player id to be updated",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Parameter to be updated to that player id",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updatePlayerRequest"
+            }
+          }
+        ],
+        "responses": {
+		  "200": {
+            "description": "Player was updated successfully.",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/updatePlayer"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+		  "400": {
+			"description": "Cannot update Player with id=${id}. Maybe Player was not found or req.body is empty!"
+          },
+          "500": {
+            "description": "Error updating Player with id=${id}"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "players"
+        ],
+        "summary": "Delete a player with id",
+        "description": "This is the endpoint to delete a player with id",
+        "operationId": "deletePlayer",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Player id to be deleted",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player was deleted successfully!"
+          },
+          "400": {
+            "description": "Cannot delete Player with id=${id}. Maybe Player was not found!"
+          },
+          "500": {
+            "description": "Could not delete Player with id=${id}"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/players/exp/{id}": {
+      "post": {
+        "tags": [
+          "players"
+        ],
+        "summary": "Add player experience by certain amount",
+        "description": "Add player experience into database",
+        "operationId": "addPlayerExp",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Player id to add experience to",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Parameter to be updated to that player id",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addPlayerExpRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player with id=${id} has more experience.",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/addPlayerExp"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "400": {
+            "description": "Cannot update Player with id=${id}!"
+          },
+          "500": {
+            "description": "Error updating Player exp with id=${id}"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Player": {
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "email",
+        "password"
+      ],
+      "properties": {
+		"id": {
+          "type": "integer",
+          "example": 1
+        },
+        "username": {
+          "type": "string",
+          "example": "hanyluqianie"
+        },
+        "email": {
+          "type": "string",
+          "example": "hanyluqianie@gmail.com"
+        },
+        "password": {
+          "type": "string"
+        },
+        "experience": {
+          "type": "integer"
+        },
+        "lvl": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "Player"
+      }
+    },
+	"createPlayerRequest": {
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "hanyluqianie"
+        },
+        "email": {
+          "type": "string",
+          "example": "hanyluqianie@gmail.com"
+        },
+        "password": {
+          "type": "string"
+        },
+        "experience": {
+          "type": "integer"
+        },
+        "lvl": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "Player"
+      }
+    },
+    "addPlayerExp": {
+      "type": "object",
+      "required": [
+        "id",
+        "experience",
+        "lvl"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 2
+        },
+        "experience": {
+          "type": "integer",
+          "example": 4
+        },
+		"lvl": {
+          "type": "integer",
+          "example": 3
+        }
+      }
+    },
+    "addPlayerExpRequest": {
+      "type": "object",
+      "required": [
+        "experience",
+        "lvl"
+      ],
+      "properties": {
+        "experience": {
+          "type": "integer",
+          "example": 4
+        },
+		"lvl": {
+          "type": "integer",
+          "example": 3
+        }
+      }
+    },
+    "updatePlayer": {
+      "type": "object",
+      "required": [
+        "id",
+        "username",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1
+        },
+        "username": {
+          "type": "string",
+          "example": "testtest"
+        },
+        "email": {
+          "type": "string",
+          "example": "testtest@yahoo.com"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "updatePlayerRequest": {
+      "type": "object",
+      "required": [
+        "username",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "testtest"
+        },
+        "email": {
+          "type": "string",
+          "example": "testtest@yahoo.com"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "example": 200
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

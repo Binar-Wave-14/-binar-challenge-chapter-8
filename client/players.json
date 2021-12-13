@@ -1,0 +1,32 @@
+{
+  "players": [
+    {
+      "username": "hany",
+      "password": "8c54d54c-be71-4f38-84ee-ec6559333751",
+      "email": "hany@yahoo.com",
+      "experience": 500,
+      "level": 99
+    },
+    {
+      "username": "stephanie",
+      "password": "98597712-bd1c-4942-a887-fc0ca51b6d5f",
+      "email": "stephanie@gmail.com",
+      "experience": 20,
+      "level": 3
+    },
+    {
+      "username": "luqianie",
+      "password": "2374e89b-a80b-40e0-9dd3-4e58f246375d",
+      "email": "luqianie@outlook.com",
+      "experience": 130,
+      "level": 8
+    },
+    {
+      "username": "jilly",
+      "password": "2374e89b-a80b-40e0-9dd3-4e58f246375d",
+      "email": "jilly@email.com",
+      "experience": 210,
+      "level": 11
+    }
+  ]
+}
